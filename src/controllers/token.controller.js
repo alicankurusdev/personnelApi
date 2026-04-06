@@ -1,22 +1,21 @@
 "use strict";
-
 /* -------------------------------------------------------------------------- */
 /*                     EXPRESS - Personnel API                  */
 /* -------------------------------------------------------------------------- */
-const Department = require("../models/department.model");
+const Token = require("../models/token.model");
 const mongoose = require("mongoose");
 module.exports = {
   list: async (req, res) => {
-    const result = await res.getModelList(Department);
+    const result = await res.getModelList(Token);
     console.log("istek geldi");
     res.status(200).send({
       error: false,
-      details: await res.getModelListDetails(Department),
+      details: await res.getModelListDetails(Token),
       result,
     });
   },
   create: async (req, res) => {
-    const result = await Department.create(req.body);
+    const result = await Token.create(req.body);
 
     res.status(201).send({
       error: false,
@@ -30,7 +29,7 @@ module.exports = {
         message: "Invalid ID format",
       });
     }
-    const result = await Department.findOne({ _id: req.params.id });
+    const result = await Token.findOne({ _id: req.params.id });
     if (!result) {
       res.errorStatusCode = 400;
       throw new Error("Data is not found");
@@ -41,7 +40,7 @@ module.exports = {
     });
   },
   update: async (req, res) => {
-    const result = await Department.findByIdAndUpdate(req.params.id, req.body, {
+    const result = await Token.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
     });
@@ -55,7 +54,7 @@ module.exports = {
     });
   },
   dlt: async (req, res) => {
-    const result = await Department.deleteOne({ _id: req.params.id });
+    const result = await Token.deleteOne({ _id: req.params.id });
     if (result.deletedCount) {
       res.sendStatus(204);
     } else {

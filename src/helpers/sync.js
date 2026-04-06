@@ -6,7 +6,7 @@
 
 module.exports = async function() {
 
-    return null;
+     return null;
 
     /* REMOVE DATABASE */
     const { mongoose } = require('../configs/dbConnection')
@@ -30,11 +30,11 @@ module.exports = async function() {
             for (let i in [...Array(10)]) {
                 Personnel.create({
                     departmentId: department._id,
-                    username: "test" + (value[0] + i),
+                    userName: "test" + (value[0] + i),
                     password: "1234",
                     firstName: "firstName",
                     lastName: "lastName",
-                    phone: "123456789",
+                    phone: "12345678911",
                     email: "test" + (value[0] + i) + "@site.com",
                     title: "title",
                     salary: 2500,

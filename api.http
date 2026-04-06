@@ -1,0 +1,45 @@
+# @name departments
+delete  http://localhost:8000/departments/69d20556e60ab6e0fd209815 
+Content-Type: application/json
+
+{
+"name":"new department 1"
+}
+
+###
+
+# @name personnels
+
+post    http://localhost:8000/personnels/
+Content-Type: application/json
+
+{
+"departmentId":"69cfcfe0c13f725481f39306",
+"userName":"testa 1yol ",
+"email":"testF1a0@test.com",
+"password":"123456789",
+"firstName":"test-1 -2",
+"lastName":"test-1 -2",
+"phone":"90551154658",
+"title":"test-1-title",
+"salary":"2000",
+"description":"test-1 description",
+"isActive":true
+
+}
+
+###
+# @name auth
+post     http://localhost:8000/auth/login
+Content-Type: application/json
+
+{
+    "email":"testF1a0@test.com",
+    "password":"123456789"
+}
+###
+# @name tokens
+get     http://localhost:8000/tokens
+Content-Type: application/json
+
+###

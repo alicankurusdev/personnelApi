@@ -4,15 +4,12 @@
 ------------------------------------------------------- */
 const router = require('express').Router()
 /* ------------------------------------------------------- */
-//Url : personnels =>
 
-const {list,create,read, update,dlt  } =require('../controllers/personnel.controller') 
+const {login,logout} = require('../controllers/auth.controller')
+// URL :/auth
 
-router.route('/').get(list).post(create)
-
-
-router.route('/:id').get(read).put(update).delete(dlt)
-
+router.post('/login',login)
+router.all('/logout',logout)
 
 /* ------------------------------------------------------- */
 module.exports = router
