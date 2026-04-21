@@ -1,6 +1,7 @@
 # @name departments
-delete  http://localhost:8000/departments/69d20556e60ab6e0fd209815 
+get  http://localhost:8000/departments/69d4114896dd00073f41503b/personnels
 Content-Type: application/json
+Authorization:Token 74697463a1126e1cbd819cc31380c8beaf3bbe9f62da4c5288028d33843fe6f9
 
 {
 "name":"new department 1"
@@ -10,36 +11,46 @@ Content-Type: application/json
 
 # @name personnels
 
-post    http://localhost:8000/personnels/
+GET http://localhost:8000/personnels/
 Content-Type: application/json
 
 {
 "departmentId":"69cfcfe0c13f725481f39306",
-"userName":"testa 1yol ",
-"email":"testF1a0@test.com",
+"userName":"admin",
+"email":"admin@test.com",
 "password":"123456789",
-"firstName":"test-1 -2",
-"lastName":"test-1 -2",
+"firstName":"admin",
+"lastName":"admin",
 "phone":"90551154658",
 "title":"test-1-title",
 "salary":"2000",
 "description":"test-1 description",
 "isActive":true
 
+
 }
 
 ###
 # @name auth
-post     http://localhost:8000/auth/login
+post   http://localhost:8000/auth/login
 Content-Type: application/json
 
 {
-    "email":"testF1a0@test.com",
-    "password":"123456789"
+    "userName":"testD2",
+    "password":"1234"
 }
 ###
 # @name tokens
-get     http://localhost:8000/tokens
+GET       http://localhost:8000/tokens/
 Content-Type: application/json
 
+{
+    "userId":"69cff691eaead31f80bc0e98",
+    "token":"123asda4"
+}
 ###
+# @name personnels
+
+GET http://localhost:8000/personnels/
+Content-Type: application/json
+Authorization: Token c64813df7e1db6b8e14fd400594c56710ac99a0fda81a207f14484bcc82becff

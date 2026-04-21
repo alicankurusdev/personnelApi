@@ -1,0 +1,574 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "personnelapi",
+    "description": "Personnel Management System Service v.1",
+    "contact": {
+      "name": "ALICANKURUS",
+      "email": "clarusway@gmail.com"
+    },
+    "licence": {
+      "name": "ISC"
+    }
+  },
+  "host": "127.0.0.1:8000",
+  "basePath": "/",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "securityDefinitions": {
+    "Token": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization",
+      "description": "Simple Token Authentication * Example Use: <b>Token ...tokenKey...</b>"
+    }
+  },
+  "paths": {
+    "/departments/": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/departments/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
+    "/departments/{id}/personnels": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/personnels/": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/personnels/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Login",
+        "description": "Login with username/email and password",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "example": "admin"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "1234"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/tokens/": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/tokens/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Department": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "function"
+            },
+            "trim": {
+              "type": "boolean",
+              "example": true
+            },
+            "required": {
+              "type": "boolean",
+              "example": true
+            },
+            "unique": {
+              "type": "boolean",
+              "example": true
+            }
+          }
+        }
+      }
+    },
+    "Personnel": {
+      "type": "object",
+      "properties": {
+        "departmentId": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "function"
+            },
+            "ref": {
+              "type": "string",
+              "example": "Department"
+            },
+            "required": {
+              "type": "boolean",
+              "example": true
+            }
+          }
+        },
+        "userName": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "function"
+            },
+            "trim": {
+              "type": "boolean",
+              "example": true
+            },
+            "required": {
+              "type": "boolean",
+              "example": true
+            },
+            "unique": {
+              "type": "boolean",
+              "example": true
+            }
+          }
+        },
+        "password": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "function"
+            },
+            "trim": {
+              "type": "boolean",
+              "example": true
+            },
+            "required": {
+              "type": "boolean",
+              "example": true
+            },
+            "set": {
+              "type": "function"
+            },
+            "select": {
+              "type": "boolean",
+              "example": false
+            }
+          }
+        },
+        "firstName": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "function"
+            },
+            "trim": {
+              "type": "boolean",
+              "example": true
+            },
+            "required": {
+              "type": "boolean",
+              "example": true
+            }
+          }
+        },
+        "lastName": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "function"
+            },
+            "trim": {
+              "type": "boolean",
+              "example": true
+            },
+            "required": {
+              "type": "boolean",
+              "example": true
+            }
+          }
+        },
+        "phone": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "function"
+            },
+            "trim": {
+              "type": "boolean",
+              "example": true
+            },
+            "required": {
+              "type": "boolean",
+              "example": true
+            },
+            "match": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "1": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "email": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "function"
+            },
+            "trim": {
+              "type": "boolean",
+              "example": true
+            },
+            "required": {
+              "type": "boolean",
+              "example": true
+            },
+            "unique": {
+              "type": "boolean",
+              "example": true
+            },
+            "validate": {
+              "type": "array",
+              "example": [
+                null,
+                "Email is not valid"
+              ],
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "title": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "function"
+            },
+            "trim": {
+              "type": "boolean",
+              "example": true
+            },
+            "required": {
+              "type": "boolean",
+              "example": true
+            }
+          }
+        },
+        "salary": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "function"
+            },
+            "default": {
+              "type": "number",
+              "example": 0
+            }
+          }
+        },
+        "description": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "function"
+            },
+            "trim": {
+              "type": "boolean",
+              "example": true
+            },
+            "required": {
+              "type": "boolean",
+              "example": true
+            }
+          }
+        },
+        "isActive": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "function"
+            },
+            "default": {
+              "type": "boolean",
+              "example": false
+            }
+          }
+        },
+        "isAdmin": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "function"
+            },
+            "default": {
+              "type": "boolean",
+              "example": false
+            }
+          }
+        },
+        "isLead": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "function"
+            },
+            "default": {
+              "type": "boolean",
+              "example": false
+            }
+          }
+        },
+        "startedAt": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "function"
+            },
+            "default": {
+              "type": "number",
+              "example": 1776513137882
+            }
+          }
+        }
+      }
+    }
+  },
+  "baseUrl": "/",
+  "security": [
+    {
+      "Token": []
+    }
+  ]
+}

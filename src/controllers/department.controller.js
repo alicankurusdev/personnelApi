@@ -4,6 +4,7 @@
 /*                     EXPRESS - Personnel API                  */
 /* -------------------------------------------------------------------------- */
 const Department = require("../models/department.model");
+const Personnel = require("../models/personnel.model");
 const mongoose = require("mongoose");
 module.exports = {
   list: async (req, res) => {
@@ -62,5 +63,17 @@ module.exports = {
       res.errorStatusCode = 404;
       throw new Error("Data is not found and not deleted");
     }
+  },
+  personnels: async (req, res) => {
+    // const result = await Personnel.find({ _id: req.params.id });
+
+    const customFilter = { departmentId: req.params.id };
+   
+    const result = await res.getModelList(Personnel, customFilter, "departmentId");
+    res.send({
+      error: false,
+      details: await res.getModelListDetails(Personnel, customFilter),
+      result,
+    });
   },
 };

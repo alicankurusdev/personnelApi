@@ -6,9 +6,11 @@
 
 const Personnel = require("../models/personnel.model");
 const mongoose = require("mongoose");
+const Token = require("../models/token.model");
+const passwordEncrypt = require("../helpers/passwordEncrypt");
 module.exports = {
   list: async (req, res) => {
-    console.log('object')
+    console.log("object");
     const result = await res.getModelList(Personnel);
     res.status(200).send({
       error: false,
@@ -17,11 +19,25 @@ module.exports = {
     });
   },
   create: async (req, res) => {
-    const result = await Personnel.create(req.body);
+    const user = await Personnel.create(req.body);
 
+    //TOKEN
+    //Token Check
+    let token = await Token
+      .findOne({ userId: user.id })
+      .select("token -_id")
+      .lean();
+    //Token Create
+    if (!token) {
+      token = await Token.create({
+        token: passwordEncrypt(user.id),
+        userId: user.id,
+      });
+    }
     res.status(201).send({
       error: false,
-      result,
+      user,
+      token:token.token,
     });
   },
   read: async (req, res) => {

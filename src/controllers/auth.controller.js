@@ -5,9 +5,23 @@ EXPRESS - Personnel API
 
 const Personnel = require("../models/personnel.model");
 const CustomError = require("../helpers/customError");
+const Token = require("../models/token.model");
+const passwordEncrypt = require("../helpers/passwordEncrypt");
 
 module.exports = {
   login: async (req, res) => {
+    /*
+    #swagger.tags = ['Authentication']
+    #swagger.summary = 'Login'
+    #swagger.description = 'Login with username/email and password'
+    #swagger.parameters ['body'] = {
+        in:'body',
+        required:true,
+        schema:{
+          username:'admin',
+          password:'1234'
+    }}
+    */
     const { userName, email, password } = req.body;
 
     if (!(userName || email) && password)
@@ -19,26 +33,31 @@ module.exports = {
     });
 
     if (!user) throw new CustomError("Wrong email or password", 401);
-    if (!user.isActive)
-      throw new CustomError("The user status is not active ", 401);
-
-    //Session
-    req.session = { id: user.id, email: user.email };
-
-    //Cookie
-    if (req.body.rememberMe)
-      req.sessionOptions.maxAge = 1000 * 60 * 60 * 24 * 3; //3 days
+    // if (!user.isActive)        //!dot forget
+    //   throw new CustomError("The user status is not active ", 401);
+    //TOKEN
+    //Token Check
+    let token = await Token.findOne({ userId: user.id });
+    //Token Create
+    if (!token) {
+      token = await Token.create({
+        userId: user.id,
+        token: passwordEncrypt(user.id),
+      });
+    }
 
     res.status(200).send({
       error: false,
+      token: token.token,
       user,
     });
   },
-  logout:async (req,res)=>{
-    req.session=null
+  logout: async (req, res) => {
+    const data = await Token.deleteOne({ userId: req.user._id });
+
     res.status(200).send({
-        error:false,
-        message:'Logout success'
-    })
-  }
+      error: false,
+      message: "Logout success",
+    });
+  },
 };

@@ -22,14 +22,46 @@ app.use(express.json());
 //Cookie-session
 app.use(
   require("cookie-session")({
-    secret: process.env.SECRET_KEY
+    secret: process.env.SECRET_KEY,
   }),
 );
 
-/* -----------------------Middlewares-------------------------------- */
-app.use(require('./src/middlewares/findSearchSortPage'))
+// Cors
 
+const cors = require("cors");
+app.use(cors());
+/* -----------------------Middlewares-------------------------------- */
+
+//queryHandler
+app.use(require("./src/middlewares/findSearchSortPage"));
+
+//Authentication
+app.use(require("./src/middlewares/authentication"));
+
+//Logger
+app.use(require("./src/middlewares/logger"));
 /* --------------------------------- Routes --------------------------------- */
+
+//Documentation
+//Json
+
+app.use('/documents/json',(req,res)=>{
+  res.sendFile('swagger.json',{root:'.'})
+})
+//Swagger
+const swaggerUi = require("swagger-ui-express");
+const swaggerJson = require("./swagger.json");
+app.use(
+  "/documents/swagger",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerJson, {
+    swaggerOptions: { persistAuthorization: true },
+  }),
+);
+
+//Redoc
+const redoc = require("redoc-express");
+app.use("/documents/redoc" , redoc({specUrl:'/documents/json',title:'Redoc UI'}));
 
 //HOME PATH
 app.all("/", (req, res) => {
@@ -40,7 +72,7 @@ app.all("/", (req, res) => {
   });
 });
 
-//deparments
+//departments
 app.use("/departments", require("./src/routes/department.router"));
 //personnels
 app.use("/personnels", require("./src/routes/personnel.router"));

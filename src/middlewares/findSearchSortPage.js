@@ -5,75 +5,67 @@
 //* QUERY HANDLER MIDDLEWARE;
 
 module.exports = async (req, res, next) => {
+  // FILTERING & SEARCHING & SORTING & PAGINATION
 
-    // FILTERING & SEARCHING & SORTING & PAGINATION
+  //* FILTERING:
+  const filter = req.query?.filter || {};
 
-    //* Filter : mutlak esitlik arar
-    //* Search : kismi esitlik arar
+  //* SEARCHING:
 
-    //* FILTERING:
-    // URL?filter[fieldName1]=value1&filter[filedName2]=value2
-    const filter = req.query?.filter || {}
+  const search = req.query?.search || {};
+  for (let key in search) search[key] = { $regex: search[key], $options: 'i' };
 
-    //* SEARCHING:
-    // URL?search[fieldName1]=value1&search[filedName2]=value2
-    // https://www.mongodb.com/docs/manual/reference/operator/query/regex/
-    // { "<field>": { "$regex": "pattern" } } -> { title: {"$regex":"test 1"}}
-    const search = req.query?.search || {}
-    for (let key in search)
-        search[key] = { $regex: search[key] }
+  //* SORTING:
+  const sort = req.query?.sort || {};
 
-    //* SORTING:
-    // URL?sort[fieldName1]=asc&sort[filedName2]=desc 
-    const sort = req.query?.sort || {}
+  //* PAGINATION:
 
-    //* PAGINATION:
-    // URL?page=3&limit=15&skip=20
+  // LIMIT:
+  let limit = Number(req.query?.limit);
+  limit = limit > 0 ? limit : Number(process.env?.PAGE_SIZE) || 20;
 
-    // LIMIT:
-    let limit = Number(req.query?.limit)
-    limit = limit > 0 ? limit : Number(process.env?.PAGE_SIZE) || 20
+  // PAGE:
+  let page = Number(req.query?.page);
+  page = page > 0 ? page : 1;
 
-    // PAGE:
-    let page = Number(req.query?.page)
-    page = page > 0 ? page : 1
+  // SKIP
+  let skip = Number(req.query?.skip);
+  skip = skip > 0 ? skip : (page - 1) * limit;
+  // GetModelList
+  res.getModelList = async (Model, customFilter = {}, populate = null) => {
+  
+    return await Model.find({ ...filter, ...customFilter, ...search })
+      .sort(sort)
+      .skip(skip)
+      .limit(limit)
+      .populate(populate);
+  };
 
-    // SKIP
-    let skip = Number(req.query?.skip)
-    skip = skip > 0 ? skip : (page - 1) * limit
+  // Details
+  res.getModelListDetails = async function (Model,customFilter = {},) {
+    const data = await Model.find({ ...filter, ...customFilter, ...search });
 
-    // GetModelList
-    res.getModelList = async (Model, populate = null) => {
-        return await Model.find({ ...filter, ...search }).sort(sort).skip(skip).limit(limit).populate(populate);
+    let details = {
+      filter,
+      search,
+      sort,
+      skip,
+      limit,
+      page,
+      totalRecords: await Model.countDocuments(),
+      pages: {
+        previos: page > 1 ? page - 1 : false,
+        current: page,
+        next: page + 1,
+        total: Math.ceil(data.length / limit),
+      },
     };
 
-    // Details
-    res.getModelListDetails = async function (Model) {
+    if (details.pages.next > details.pages.total) details.pages.next = false;
+    if (details.totalRecords <= limit) details.pages = false;
 
-        const data = await Model.find({ ...filter, ...search });
+    return details;
+  };
 
-        let details = {
-            filter,
-            search,
-            sort,
-            skip,
-            limit,
-            page,
-            totalRecords: data.length,
-            pages: {
-                previos: (page > 1 ? page - 1 : false),
-                current: page,
-                next: page + 1,
-                total: Math.ceil(data.length / limit)
-            }
-        };
-
-        if (details.pages.next > details.pages.total) details.pages.next = false;
-        if (details.totalRecords <= limit) details.pages = false
-
-        return details
-    }
-
-
-    next()
-}
+  next();
+};

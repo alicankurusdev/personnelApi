@@ -1,4 +1,7 @@
 "use strict";
+const CustomError = require("../helpers/customError");
+const passwordEncrypt = require("../helpers/passwordEncrypt");
+const tokenModel = require("../models/token.model");
 /* -------------------------------------------------------------------------- */
 /*                     EXPRESS - Personnel API                  */
 /* -------------------------------------------------------------------------- */
@@ -7,7 +10,6 @@ const mongoose = require("mongoose");
 module.exports = {
   list: async (req, res) => {
     const result = await res.getModelList(Token);
-    console.log("istek geldi");
     res.status(200).send({
       error: false,
       details: await res.getModelListDetails(Token),
@@ -15,11 +17,11 @@ module.exports = {
     });
   },
   create: async (req, res) => {
-    const result = await Token.create(req.body);
+    const user = await Token.create(req.body);
 
     res.status(201).send({
       error: false,
-      result,
+      user,
     });
   },
   read: async (req, res) => {
