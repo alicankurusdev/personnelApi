@@ -9,6 +9,8 @@ const Token = require("../models/token.model");
 const mongoose = require("mongoose");
 module.exports = {
   list: async (req, res) => {
+        // _swagger.deprecated = true
+        // #swagger.ignore = true
     const result = await res.getModelList(Token);
     res.status(200).send({
       error: false,
@@ -17,6 +19,8 @@ module.exports = {
     });
   },
   create: async (req, res) => {
+        // #swagger.ignore = true
+
     const user = await Token.create(req.body);
 
     res.status(201).send({
@@ -25,6 +29,7 @@ module.exports = {
     });
   },
   read: async (req, res) => {
+    // #swagger.ignore = true
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
       res.status(400).send({
         error: true,
@@ -42,7 +47,8 @@ module.exports = {
     });
   },
   update: async (req, res) => {
-    const result = await Token.findByIdAndUpdate(req.params.id, req.body, {
+    // #swagger.ignore = true
+  const result = await Token.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
     });
@@ -56,6 +62,7 @@ module.exports = {
     });
   },
   dlt: async (req, res) => {
+    // #swagger.ignore = true
     const result = await Token.deleteOne({ _id: req.params.id });
     if (result.deletedCount) {
       res.sendStatus(204);

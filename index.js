@@ -68,16 +68,23 @@ app.all("/", (req, res) => {
   res.status(200).send({
     error: false,
     message: "welcome to personnel API",
+    api:{
+      documents:{
+        swagger:'http://localhost:8000/documents/swagger',
+        redoc:'http://localhost:8000/documents/redoc',
+        json:'http://localhost:8000/documents/json'
+      }
+    },
     session: req.session,
   });
 });
 
+//auth
+app.use("/auth", require("./src/routes/auth.router"));
 //departments
 app.use("/departments", require("./src/routes/department.router"));
 //personnels
 app.use("/personnels", require("./src/routes/personnel.router"));
-//auth
-app.use("/auth", require("./src/routes/auth.router"));
 //tokens
 app.use("/tokens", require("./src/routes/token.router"));
 

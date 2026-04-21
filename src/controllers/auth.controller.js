@@ -11,16 +11,13 @@ const passwordEncrypt = require("../helpers/passwordEncrypt");
 module.exports = {
   login: async (req, res) => {
     /*
-    #swagger.tags = ['Authentication']
-    #swagger.summary = 'Login'
-    #swagger.description = 'Login with username/email and password'
-    #swagger.parameters ['body'] = {
-        in:'body',
-        required:true,
-        schema:{
-          username:'admin',
-          password:'1234'
-    }}
+      #swagger.tags = ['Authentication']
+      #swagger.summary = 'Login'
+      #swagger.description = 'Login with username/email and password'
+      #swagger.parameters ['body'] = {
+          in:'body',
+          required:true,
+          schema:$ref:}
     */
     const { userName, email, password } = req.body;
 
@@ -53,6 +50,12 @@ module.exports = {
     });
   },
   logout: async (req, res) => {
+     /*
+      #swagger.tags = ['Authentication']
+      #swagger.summary = 'Logout'
+      #swagger.description = 'Delete Token'
+      
+    */
     const data = await Token.deleteOne({ userId: req.user._id });
 
     res.status(200).send({
